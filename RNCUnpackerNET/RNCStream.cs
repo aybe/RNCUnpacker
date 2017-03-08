@@ -6,13 +6,16 @@ namespace RNCUnpackerNET
 {
     public sealed class RNCStream : MemoryStream
     {
-        public RNCStream(Stream stream)
+        public RNCStream(Stream stream, bool disposeStream = true)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
 
             var stream1 = GetStream(stream);
             stream1.CopyTo(this);
+
+            if (disposeStream)
+                stream.Dispose();
         }
 
         [DllImport(@"RNCUnpacker.dll",
