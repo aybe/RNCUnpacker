@@ -4,37 +4,56 @@ using System.Runtime.InteropServices;
 
 namespace RNCUnpackerNET
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///     RNC-aware stream, detects and unpacks RNC-packed content automatically, else passes content through.
+    /// </summary>
     public sealed class RNCStream : MemoryStream
     {
-        public RNCStream(Stream stream, bool disposeStream = true)
+#if RNC_UNITY
+        private const string Dll = @"RNCUnpacker";
+#else
+        private const string Dll = @"RNCUnpacker.dll";
+#endif
+
+        /// <inheritdoc />
+        /// <summary>
+        ///     Initializes a new instance of <see cref="T:RNCUnpackerNET.RNCStream" />.
+        /// </summary>
+        /// <param name="sourceStream">
+        ///     Source stream, can be either RNC-packed content or not.
+        /// </param>
+        /// <param name="dispose">
+        ///     Dispose <paramref name="sourceStream" />?
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="sourceStream" /> is <c>null</c>.
+        /// </exception>
+        public RNCStream(Stream sourceStream, bool dispose = true)
         {
-            if (stream == null)
-                throw new ArgumentNullException("stream");
+            if (sourceStream == null)
+                throw new ArgumentNullException(nameof(sourceStream));
 
-            var stream1 = GetStream(stream);
-            stream1.CopyTo(this);
+            var stream = GetStream(sourceStream);
 
-            if (disposeStream)
-                stream.Dispose();
+            stream.CopyTo(this);
+
+            if (dispose)
+                sourceStream.Dispose();
         }
-
-        [DllImport(@"RNCUnpacker.dll",
-            CallingConvention = CallingConvention.Cdecl, EntryPoint = "unpack")]
-        private static extern RNCStatus unpack(IntPtr input, IntPtr output);
 
         private static Stream GetStream(Stream stream)
         {
             if (stream == null)
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
 
             var position = stream.Position;
 
-            RNCHeader header;
-            var tryParse = RNCHeader.TryParse(stream, out header);
+            var parse = RNCHeader.TryParse(stream, out var header);
 
-            stream.Position = position;
+            stream.Position = position; // restore position in case of not-RNC
 
-            if (!tryParse)
+            if (!parse)
                 return stream;
 
             var input = new byte[stream.Length];
@@ -44,26 +63,25 @@ namespace RNCUnpackerNET
             if (read != input.Length)
                 throw new EndOfStreamException("Couldn't read entire stream.");
 
-            var pInput = Marshal.AllocHGlobal(input.Length);
-            var pOutput = Marshal.AllocHGlobal(output.Length);
-            Marshal.Copy(input, 0, pInput, input.Length); // clear
-            Marshal.Copy(output, 0, pOutput, output.Length); // clear
+            var p1 = Marshal.AllocHGlobal(input.Length);
+            var p2 = Marshal.AllocHGlobal(output.Length);
+            Marshal.Copy(input, 0, p1, input.Length);
+            Marshal.Copy(output, 0, p2, output.Length);
 
-            var status = unpack(pInput, pOutput);
+            var status = Unpack(p1, p2);
             if (status == RNCStatus.Ok)
-                Marshal.Copy(pOutput, output, 0, output.Length);
+                Marshal.Copy(p2, output, 0, output.Length);
 
-            Marshal.FreeHGlobal(pInput);
-            Marshal.FreeHGlobal(pOutput);
+            Marshal.FreeHGlobal(p1);
+            Marshal.FreeHGlobal(p2);
 
             if (status != RNCStatus.Ok)
-            {
-                var message = string.Format("An error occurred while unpacking: {0}", status);
-                throw new InvalidOperationException(message);
-            }
+                throw new InvalidOperationException($"Error while unpacking: '{status}'.");
 
-            var memoryStream = new MemoryStream(output);
-            return memoryStream;
+            return new MemoryStream(output);
         }
+
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "unpack")]
+        private static extern RNCStatus Unpack(IntPtr input, IntPtr output);
     }
 }

@@ -7,7 +7,7 @@ namespace RNCUnpackerNET
     {
         Ok,
         FileIsNotRNC,
-        HufDecodeError,
+        HuffmanDecodeError,
         FileSizeMismatch,
         PackedCrcError,
         UnpackedCrcError
