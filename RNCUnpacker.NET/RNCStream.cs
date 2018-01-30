@@ -38,6 +38,8 @@ namespace RNCUnpacker.NET
 
             stream.CopyTo(this);
 
+            Position = 0;
+
             if (dispose)
                 sourceStream.Dispose();
         }
