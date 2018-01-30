@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RNCUnpackerNET", "RNCUnpack
 		{D579B188-A10A-41A0-A14A-82A751733411} = {D579B188-A10A-41A0-A14A-82A751733411}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -36,16 +34,11 @@ Global
 		{89BECEB0-00E3-45ED-9A1C-566CC3966F91}.Release|x64.Build.0 = Release|x64
 		{89BECEB0-00E3-45ED-9A1C-566CC3966F91}.Release|x86.ActiveCfg = Release|x86
 		{89BECEB0-00E3-45ED-9A1C-566CC3966F91}.Release|x86.Build.0 = Release|x86
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Debug|x64.ActiveCfg = Debug|x64
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Debug|x64.Build.0 = Debug|x64
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Debug|x86.ActiveCfg = Debug|x86
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Debug|x86.Build.0 = Debug|x86
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Release|x64.ActiveCfg = Release|x64
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Release|x64.Build.0 = Release|x64
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Release|x86.ActiveCfg = Release|x86
-		{2F0DBDA3-5B8E-4C96-9D62-B0874D31E2F0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51C2ECA6-06FB-4DF5-B553-A6BF5096E5D4}
 	EndGlobalSection
 EndGlobal
