@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace RNCUnpackerNET
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace RNCUnpacker.NET
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public enum RNCStatus

@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace RNCUnpackerNET
+namespace RNCUnpacker.NET
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public enum RNCCompression : byte

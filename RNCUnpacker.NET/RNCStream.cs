@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace RNCUnpackerNET
+namespace RNCUnpacker.NET
 {
     /// <inheritdoc />
     /// <summary>
@@ -18,7 +18,7 @@ namespace RNCUnpackerNET
 
         /// <inheritdoc />
         /// <summary>
-        ///     Initializes a new instance of <see cref="T:RNCUnpackerNET.RNCStream" />.
+        ///     Initializes a new instance of <see cref="T:RNCUnpacker.NET.RNCStream" />.
         /// </summary>
         /// <param name="sourceStream">
         ///     Source stream, can be either RNC-packed content or not.

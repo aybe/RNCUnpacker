@@ -6,7 +6,7 @@ using System.Text;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace RNCUnpackerNET
+namespace RNCUnpacker.NET
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 18)]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
